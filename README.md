@@ -15,7 +15,7 @@ Or simply open the project in your favourite IDE (like IntelliJ) and run: ```ben
 
 ## Open the results
 
-The last line (using Caliper) will print something like this, open the link in your browser:
+The last line (using [Caliper](https://code.google.com/p/caliper/)) will print something like this, open the link in your browser:
 > Results have been uploaded. View them at: https://microbenchmarks.appspot.com/runs/[GENERATED_UUID]
 
 
