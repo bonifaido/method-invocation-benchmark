@@ -1,3 +1,5 @@
+package benchmark;
+
 import com.esotericsoftware.reflectasm.MethodAccess;
 import com.google.caliper.Benchmark;
 import com.google.caliper.runner.CaliperMain;
@@ -126,9 +128,9 @@ class ReflectASMByIndexInvoker<T> implements Callable<T> {
 
 // TODO include benchmarks for setting a single parameter
 @SuppressWarnings("unused")
-public class MethodInvocationBenchmark extends Benchmark {
+public class MethodInvocationBenchmarkMain extends Benchmark {
 
-    Callable<String> targetObject = new Callable<String>() {
+    private final Callable<String> targetObject = new Callable<String>() {
         @Override
         public String call() throws Exception {
             return "Hello World";
@@ -136,18 +138,18 @@ public class MethodInvocationBenchmark extends Benchmark {
     };
 
     public static void main(String[] args) {
-        CaliperMain.main(MethodInvocationBenchmark.class, args);
+        CaliperMain.main(MethodInvocationBenchmarkMain.class, args);
     }
 
     public void timeDirectInvoker(long reps) throws Exception {
-        DirectInvoker<String> invoker = new DirectInvoker<String>(targetObject);
+        DirectInvoker<String> invoker = new DirectInvoker<>(targetObject);
         for (long i = 0; i < reps; i++) {
             invoker.call();
         }
     }
 
     public void timeReflectInvoker(long reps) throws Exception {
-        ReflectInvoker<String> invoker = new ReflectInvoker<String>(targetObject);
+        ReflectInvoker<String> invoker = new ReflectInvoker<>(targetObject);
         for (long i = 0; i < reps; i++) {
             invoker.call();
         }
@@ -156,28 +158,28 @@ public class MethodInvocationBenchmark extends Benchmark {
     // reps above 1000000 shows interesting results, MH becomes slower than Method
     // under that MH is about two times faster
     public void timeMethodHandleInvoker(long reps) throws Exception {
-        MethodHandleInvoker<String> invoker = new MethodHandleInvoker<String>(targetObject);
+        MethodHandleInvoker<String> invoker = new MethodHandleInvoker<>(targetObject);
         for (long i = 0; i < reps; i++) {
             invoker.call();
         }
     }
 
     public void timeStaticFinalMethodHandleInvoker(long reps) throws Exception {
-        StaticFinalMethodHandleInvoker<String> invoker = new StaticFinalMethodHandleInvoker<String>(targetObject);
+        StaticFinalMethodHandleInvoker<String> invoker = new StaticFinalMethodHandleInvoker<>(targetObject);
         for (long i = 0; i < reps; i++) {
             invoker.call();
         }
     }
 
     public void timeReflectASMByNameInvoker(long reps) throws Exception {
-        ReflectASMByNameInvoker<String> invoker = new ReflectASMByNameInvoker<String>(targetObject);
+        ReflectASMByNameInvoker<String> invoker = new ReflectASMByNameInvoker<>(targetObject);
         for (long i = 0; i < reps; i++) {
             invoker.call();
         }
     }
 
     public void timeReflectASMByIndexInvoker(long reps) throws Exception {
-        ReflectASMByIndexInvoker<String> invoker = new ReflectASMByIndexInvoker<String>(targetObject);
+        ReflectASMByIndexInvoker<String> invoker = new ReflectASMByIndexInvoker<>(targetObject);
         for (long i = 0; i < reps; i++) {
             invoker.call();
         }
