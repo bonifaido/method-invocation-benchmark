@@ -126,6 +126,22 @@ class ReflectASMByIndexInvoker<T> implements Callable<T> {
     }
 }
 
+// TODO review this on the bytecode level
+// TODO add capturing lambda as well
+class LambdaInvoker<T> implements Callable<T> {
+
+    private final Callable<T> targetObjectMethod;
+
+    public LambdaInvoker(Callable<T> targetObject) throws Exception {
+        this.targetObjectMethod = targetObject::call;
+    }
+
+    @Override
+    public T call() throws Exception {
+        return targetObjectMethod.call();
+    }
+}
+
 // TODO include benchmarks for setting a single parameter
 @SuppressWarnings("unused")
 public class MethodInvocationBenchmarkMain extends Benchmark {
@@ -180,6 +196,13 @@ public class MethodInvocationBenchmarkMain extends Benchmark {
 
     public void timeReflectASMByIndexInvoker(long reps) throws Exception {
         ReflectASMByIndexInvoker<String> invoker = new ReflectASMByIndexInvoker<>(targetObject);
+        for (long i = 0; i < reps; i++) {
+            invoker.call();
+        }
+    }
+
+    public void timeLambdaInvoker(long reps) throws Exception {
+        LambdaInvoker<String> invoker = new LambdaInvoker<>(targetObject);
         for (long i = 0; i < reps; i++) {
             invoker.call();
         }
