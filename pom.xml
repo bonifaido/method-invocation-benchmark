@@ -19,6 +19,11 @@
             <artifactId>reflectasm</artifactId>
             <version>1.07</version>
         </dependency>
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>4.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>

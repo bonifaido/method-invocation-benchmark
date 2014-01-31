@@ -19,19 +19,17 @@ public class MethodHandleInvoker extends AbstractInvoker {
 
     public MethodHandleInvoker() {
         MethodType methodType = MethodType.methodType(Object.class);
-        MethodHandle methodHandle;
         try {
-            methodHandle = MethodHandles.lookup().findVirtual(Callable.class, "call", methodType);
+            targetMethodHandle = MethodHandles.lookup().findVirtual(Callable.class, "call", methodType);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        targetMethodHandle = MethodHandles.insertArguments(methodHandle, 0, targetObject);
     }
 
     @Override
     public Object call() throws Exception {
         try {
-            return targetMethodHandle.invokeExact();
+            return targetMethodHandle.invokeExact(targetObject);
         } catch (Throwable throwable) {
             throw new Exception(throwable);
         }

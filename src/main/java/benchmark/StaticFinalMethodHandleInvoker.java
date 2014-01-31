@@ -22,7 +22,6 @@ public class StaticFinalMethodHandleInvoker extends AbstractInvoker {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        // TODO try MethodHandles.insertArguments() here!?
     }
 
     @Override
