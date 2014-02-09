@@ -8,11 +8,12 @@ import java.lang.reflect.Method;
 @State(Scope.Benchmark)
 public class ReflectInvoker extends AbstractInvoker {
 
-    private final Method method;
+    protected final Method method;
 
     public ReflectInvoker() {
         try {
-            this.method = targetObject.getClass().getMethod("call");
+            method = targetObject.getClass().getMethod("call");
+            method.setAccessible(true);
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
